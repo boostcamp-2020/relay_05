@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import MainPage from './pages/MainPage';
+import ChattingPage from './pages/ChattingPage';
 
 function Routes() {
   return (
@@ -13,7 +14,7 @@ function Routes() {
       <Router>
         <Switch>
           <Route path='/chat/new'>
-            <MainPage />
+            <ChattingPage />
           </Route>
           <Route exact path='/'>
             <MainPage />
