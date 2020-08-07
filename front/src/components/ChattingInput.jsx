@@ -1,7 +1,11 @@
-import React, { useState, useCallback } from 'react';
-import styled from 'styled-components';
+import React, { useState, useCallback, useEffect } from 'react';
+
 import { TextField } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
+
+import styled from 'styled-components';
+
+const ws = new WebSocket('ws://localhost:3250');
 
 const ChattingInputBlock = styled.div`
   margin-top: 1em;
@@ -16,27 +20,43 @@ const ChattingInputBlock = styled.div`
 `;
 
 const ChattingInput = ({ addComment }) => {
-  const [value, setValue] = useState('');
-  
+  const [message, setMessage] = useState('');
+  const [nickname, setNickname] = useState('User');
+
+  useEffect(() => {
+    ws.onmessage = (event) => {
+      console.log(event.data);
+      let recData = JSON.parse(event.data);
+    }
+  });
+
+  const send = (nickname, message) => {
+    console.log(`전송: ${nickname}, ${message}`);
+    // 서버로 message 이벤트 전달 + 데이터와 함께
+    let sendData = { event: 'req', data: { nickname: nickname, message: message } };
+    ws.send(JSON.stringify(sendData));
+  }
+
   const onChange = useCallback(e => {
-    setValue(e.target.value);
+    setMessage(e.target.value);
   });
 
   const handleInput = e => {
-    if (e.key === 'Enter' && value.length !== 0) {
-      console.log('handleInput---value', value);
-      addComment(value);
-      setValue('');
+    if (e.key === 'Enter' && message.length !== 0) {
+      console.log('handleInput---message', message);
+      addComment(message);
+      setMessage('');
     }
   };
 
-  const onSubmit = useCallback(
-    e => {
-      addComment(value);
-      setValue('');
-      e.preventDefault();
-    },
-    [addComment, value],
+  const onSubmit = useCallback(e => {
+    addComment(message);
+    setMessage('');
+    send(nickname, message);
+    e.preventDefault();
+    e.target.reset();
+  },
+    [addComment, message],
   );
 
   return (
@@ -48,9 +68,7 @@ const ChattingInput = ({ addComment }) => {
           variant="outlined" 
           onChange={onChange}
           onKeyUp={handleInput}
-          style={{
-            width: '90%'
-          }}
+          style={{ width: '90%' }}
         />
         <button type="submit">
           <SendIcon id='send' />
