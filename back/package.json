@@ -1,0 +1,31 @@
+{
+  "name": "quizlunch-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node main",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node_modules/.bin/webpack --config webpack.config.js",
+    "start-dist": "pm2 start npm --name 'api-dist' -- run start",
+    "stop-dist": "pm2 delete api-dist",
+    "restart-dist": "npm run stop-dist && npm run start-dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-ws": "^4.0.0",
+    "mysql": "^2.17.1",
+    "mysql2": "^2.0.0",
+    "node-schedule": "^1.3.2",
+    "pm2": "^4.4.0",
+    "ws": "^7.2.0"
+  },
+  "devDependencies": {}
+}

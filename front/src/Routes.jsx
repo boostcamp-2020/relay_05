@@ -14,7 +14,7 @@ function Routes() {
       <Router>
         <Switch>
           <Route path='/chat/new'>
-            <ChattingPage />
+            <ChattingPage chattingTitle='네이버대학교 19학번 채팅방' />
           </Route>
           <Route exact path='/'>
             <MainPage />

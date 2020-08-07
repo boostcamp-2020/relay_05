@@ -1,0 +1,6 @@
+create table comments(
+    commentID int not null AUTO_INCREMENT PRIMARY KEY,
+    nickname char(20),
+    text char(80),
+    time char(20)
+    );

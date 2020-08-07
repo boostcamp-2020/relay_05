@@ -30,28 +30,36 @@ const Page = styled.div`
   display: flex;
 `
 
-const ChattingPage = ({ comments, chattingTitle }) => {
-  const [Comments, setComments] = useState([
-    {
-      name: 'yejin',
-      text: 'commmmmmmmmmmmmmmmmmmment',
-    },
-    {
-      name: 'kim',
-      text: 'blabla~~~~',
-    }
-  ]);
+const mockData = [
+  {
+    nickname: 'yejin',
+    text: 'commmmmmmmmmmmmmmmmmmment',
+    time: '2020.7.7 21:00',
+  },
+  {
+    nickname: 'kim',
+    text: 'blabla~~~~',
+    time: '2020.7.7 22:00',
+  }
+]; //이전 대화기록입니다.
+
+const ChattingPage = ({ chattingTitle }) => {
+  const [comments, setComments] = useState(mockData);
+
+  const date = new Date();
 
   const addComment = useCallback(
     comment => {
       if (comment.length === 0) return;
-      const temp = {
-        name: 'jin',
+      const newMessageData = {
+        nickname: 'User',
         text: comment,
+        time: date.getFullYear() + '.' + date.getMonth() + '.' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
       };
-      setComments([...Comments, temp]);
+      console.log('comments is ', comments);
+      setComments([...comments, newMessageData]);
     },
-    [Comments],
+    [comments],
   );
 
   return (
@@ -62,8 +70,8 @@ const ChattingPage = ({ comments, chattingTitle }) => {
           <div className='chatting-title'>{chattingTitle}</div>
         </div>
         <div className='content'>
-          {Comments.map(comment => (
-            <ChattingContent comment={comment} key={comment.name} />
+          {comments.map((comment, i) => (
+            <ChattingContent comment={comment} key={i} />
           ))}
           <ChattingInput addComment={addComment} />
         </div>
