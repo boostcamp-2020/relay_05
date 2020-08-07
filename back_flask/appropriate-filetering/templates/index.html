@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html style="border-radius: 50%;">
+<style>
+
+@font-face {
+    font-family: 'Intro';
+    src: url('font/Intro.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    src: url('font/NotoSansKR-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR Light';
+    font-style: normal;
+    font-weight: 100;
+    src: url('font/NotoSansKR-Light.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR Bold';
+    font-style: normal;
+    font-weight: 600;
+    src: url('font/NotoSansKR-Bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Serif KR';
+    font-style: normal;
+    font-weight: 400;
+    src: url('font/NotoSerifCJKkr-Regular-subset.otf') format('opentype');
+}
+
+body {
+    margin: 12.5px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+h1 {
+    cursor: default;
+    user-select:none;
+    font-family: 'Noto Sans KR Light';
+    letter-spacing: -2px;
+    font-size: 48px;
+    font-weight: 900;
+    font-style: italic;
+    font-stretch: normal;
+    line-height: 20px;
+}
+
+h2 {
+    font-family: 'Noto Serif KR';
+    letter-spacing: -1.5px;
+    font-size: 20px;
+    font-weight: 200;
+    font-stretch: normal;
+    line-height: 30px;
+}
+
+
+.strong {
+    font-family: 'Noto Sans KR Bold';
+}
+
+
+.app {
+    margin: 12.5px;
+    margin-top: 60px;
+}
+
+.divide-title {
+    user-select:none;
+    color: #000;
+    font-family: 'Noto Serif KR';
+    letter-spacing: -.5px;
+    font-size: 20px;
+    padding-bottom: 20px;
+}
+
+.divide-content {
+    overflow: scroll;
+    padding: 20px;
+    height: 500px;
+    padding-top: 0;
+}
+
+.left, .right {
+    float:left;
+    width: 50%;
+    height: 600px;
+
+}
+
+.ori-sentence {
+    padding: 20px;
+    word-break: break-all;
+    font-family: 'Noto Serif KR';
+    letter-spacing: -.5px;
+    font-size: 16px;
+    text-align: center;
+    -webkit-box-shadow: 0px 15px 25px 5px rgba(0,0,0,0.05);
+    -moz-box-shadow: 0px 15px 25px 5px rgba(0,0,0,0.05);
+    box-shadow: 0px 15px 25px 5px rgba(0,0,0,0.05);
+    margin-top: 25px;
+}
+
+.divide-input {
+    width: 100%;
+    height: 50px;
+}
+
+#ori-sentence-input {
+    font-family: 'Noto Serif KR';
+    letter-spacing: -.5px;
+    font-size: 14px;
+    padding: 10px;
+    border: 0;
+    width: 90%;
+    outline: 0;
+}
+
+.good {
+    background-color: cyan;
+}
+
+.bad {
+    background-color: red;
+    color: white;
+}
+</style>
+<div class="title">
+  <div class="traffic">
+    <div id="close"></div>
+  </div>
+  <div class="title_content">비속어필터링</div>
+</div>
+  <head>
+    <meta charset="UTF-8">
+    <title>📄</title>
+  </head>
+  <body>
+    <div class="app">
+        <div class="left">
+            <div class="divide-title">필터링 할 문장</div>
+            <div id="ori-sentence-list" class="divide-content">
+            </div>
+            <div class="divide-input">
+                <input type="text" id="ori-sentence-input" placeholder="문장을 입력해주세요" onkeydown="JavaScript:addSentence();">
+            </div>
+        </div>
+        <div class="right">
+                <div class="divide-title">필터링 된 문장</div>
+                <div id="result-sentence-list" class="divide-content">
+                    
+                </div>
+        </div>
+    </div>
+  </body>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  async function addSentence() {
+    if(event.keyCode == 13){
+        let sentence = document.getElementById('ori-sentence-input').value;
+        document.getElementById('ori-sentence-list').innerHTML += '<div class="ori-sentence">' + sentence  + '</div>';
+        let result = await sentenceClassification(sentence);
+        console.log(result)
+        if(result['data'] === -1) {
+            document.getElementById('result-sentence-list').innerHTML += '<div class="ori-sentence">에러가 발생하였습니다.</div>';
+        } else if(result['data'] === 0) {
+            document.getElementById('result-sentence-list').innerHTML += '<div class="ori-sentence good">' + result['text'] + '</div>';
+        } else if(result['data'] === 1 ) {
+            document.getElementById('result-sentence-list').innerHTML += '<div class="ori-sentence bad">' + result['text'] + '</div>';
+        }
+        document.getElementById('ori-sentence-list').scrollTop = document.getElementById('ori-sentence-list').scrollHeight;
+        document.getElementById('result-sentence-list').scrollTop = document.getElementById('result-sentence-list').scrollHeight;
+        document.getElementById('ori-sentence-input').value = '';
+   }
+}
+
+async function sentenceClassification (data) {
+    try {
+      let res = await axios({
+        method: 'post',
+        url: '/chk',
+        timeout: 8000,
+        data: { text: data }
+      })
+      if (res.status !== 200) {
+        return -1
+      }
+      console.log(res.data)
+      let result = 0
+      if (res.data == "욕아님") {
+        result = 0
+      } else if (res.data == "욕") {
+        result = 1
+      }
+      return { data: result, text: data }
+    } catch (err) {
+      console.error(err)
+      return -1
+    }
+  }
+</script>
+</html>

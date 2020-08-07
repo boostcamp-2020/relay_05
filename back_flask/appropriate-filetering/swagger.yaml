@@ -1,0 +1,26 @@
+openapi: 3.0.0
+
+info:
+  title: appropriate-filetering-api
+  version: 0.0.1
+
+servers:
+  - url: https://endpoint.ainize.ai/hjh010501/appropriate-filetering/
+
+paths:
+  /chk:
+    post:
+      summary: classification bad word
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+              example:
+                text: "욕"
+      responses:
+        '200':
+          description: OK
