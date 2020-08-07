@@ -2,7 +2,7 @@ from flask import Flask, request, Response, render_template, jsonify
 from flask_cors import CORS
 import tensorflow as tf
 import numpy as np
-from flask_restful import reqparse
+# from flask_restful import reqparse
 from tensorflow import keras
 import pickle
 from keras.preprocessing import sequence
@@ -60,7 +60,7 @@ def upload_train():
     print(data)
     print(request)
     # print(data['text'])
-    poornag = predict(data['text'])
+    # poornag = predict(data['text'])
 
     textArray = data['text'].split(' ')
 
@@ -84,8 +84,9 @@ def upload_train():
     #
     # return poornag, 200
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
+# node.js 와 host IP 맞춰야 함
 app.run(port=5000, host='0.0.0.0', debug=True, threaded=True)
