@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[requires]
+python_version = '3.7'
+
+[packages]
+Flask = "==1.0.2"
+jsonify = "==0.5"
+Flask-Cors = "==3.0.7"
+keras = "*"
+torch = "*"
+tensorflow = "==1.13.1"
+
+[dev-packages]
