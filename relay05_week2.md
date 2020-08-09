@@ -2,6 +2,10 @@
 ### 자연어 처리 기능
 채팅에서 비속어 등장 시 ‘아잉♥’으로 바꿔주기
 
+### 시스템 구조
+![image](https://user-images.githubusercontent.com/26537048/89733480-c0063700-da90-11ea-9281-3c438178f6f9.png)
+
+
 ## 💻 FrontEnd
 ### 사용 기술
 `React.JS` `WebSocket` `styled-components` `material-ui`<br>
