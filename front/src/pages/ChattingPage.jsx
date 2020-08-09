@@ -1,10 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback,useEffect } from 'react';
 
 import ChattingContent from '../components/ChattingContent'
 import ChattingInput from '../components/ChattingInput';
 import MainMenu from '../components/MainMenu';
 
 import styled from 'styled-components';
+
+
 
 const ChattingBlock = styled.div`
   display: flex;
@@ -46,10 +48,21 @@ const mockData = [
 const ChattingPage = ({ chattingTitle }) => {
   const [comments, setComments] = useState(mockData);
 
+  const ws = new WebSocket('ws://localhost:3250');
+
+  useEffect(() => {
+    ws.onmessage = (event) => {
+      console.log('on message',event.data);
+      let recData = JSON.parse(event.data);
+
+      addComment(recData.data.message);
+    }
+  });
+
   const date = new Date();
 
   const addComment = useCallback(
-    comment => {
+    (comment) => {
       if (comment.length === 0) return;
       const newMessageData = {
         nickname: 'User',
@@ -73,7 +86,7 @@ const ChattingPage = ({ chattingTitle }) => {
           {comments.map((comment, i) => (
             <ChattingContent comment={comment} key={i} />
           ))}
-          <ChattingInput addComment={addComment} />
+          <ChattingInput addComment={addComment} ws={ws} />
         </div>
       </ChattingBlock>
     </Page>

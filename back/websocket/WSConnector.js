@@ -13,7 +13,7 @@ module.exports = class WSConnector {
     this.WSS.on("connection", async (ws, req) => {
       var data = {}
       // data['comments'] = await DBComments.getAllComments()
-      ws.send(JSON.stringify(data))
+      // ws.send(JSON.stringify(data))
       ws.on('message', (message) => {
         let sendData = { event: 'res', data: null };
         message = JSON.parse(message);
