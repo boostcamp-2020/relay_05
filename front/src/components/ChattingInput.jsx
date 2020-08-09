@@ -5,7 +5,7 @@ import SendIcon from '@material-ui/icons/Send';
 
 import styled from 'styled-components';
 
-const ws = new WebSocket('ws://localhost:3250');
+
 
 const ChattingInputBlock = styled.div`
   margin-top: 1em;
@@ -19,16 +19,10 @@ const ChattingInputBlock = styled.div`
   }
 `;
 
-const ChattingInput = ({ addComment }) => {
+const ChattingInput = ({ addComment,ws }) => {
   const [message, setMessage] = useState('');
   const [nickname, setNickname] = useState('User');
 
-  useEffect(() => {
-    ws.onmessage = (event) => {
-      console.log(event.data);
-      let recData = JSON.parse(event.data);
-    }
-  });
 
   const send = (nickname, message) => {
     console.log(`전송: ${nickname}, ${message}`);
