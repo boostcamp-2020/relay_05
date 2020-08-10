@@ -2,6 +2,10 @@
 ### 자연어 처리 기능
 채팅에서 비속어 등장 시 ‘아잉♥’으로 바꿔주기
 
+### 시스템 구조
+![image](https://user-images.githubusercontent.com/26537048/89733480-c0063700-da90-11ea-9281-3c438178f6f9.png)
+
+
 ## 💻 FrontEnd
 ### 사용 기술
 `React.JS` `WebSocket` `styled-components` `material-ui`<br>
@@ -14,13 +18,13 @@
 - 메뉴 카테고리 클릭(채팅시작)
 ![Screenshot from 2020-08-07 23-00-00](https://user-images.githubusercontent.com/52442237/89653556-358fcd00-d902-11ea-8b5b-baa10127566e.png)
 
-- 채팅방 접속(mockData로 넣어둔 이전 채팅기록을 불러온다)
+- 채팅방 접속(이전 채팅기록을 불러온다)
 ![Screenshot from 2020-08-07 23-00-03](https://user-images.githubusercontent.com/52442237/89653558-358fcd00-d902-11ea-96a8-93735f12e85a.png)
 
 - 채팅입력시 채팅방에 출력
 ![Screenshot from 2020-08-07 23-00-15](https://user-images.githubusercontent.com/52442237/89653561-37599080-d902-11ea-9d87-3d0ed7d18f56.png)
 
-- 동시에 socket.io로 통신
+- 동시에 WebSocket으로 통신
 ![Screenshot from 2020-08-07 23-00-19](https://user-images.githubusercontent.com/52442237/89653562-388abd80-d902-11ea-9c7d-f2a54f866a7a.png)
 
 
