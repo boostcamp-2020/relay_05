@@ -7,6 +7,22 @@
 
 
 ## 💻 FrontEnd
+### 프로젝트 시작하기
+
+```bash
+git clone https://github.com/boostcamp-2020/relay_05.git
+cd front
+npm install
+npm start
+```
+
+socket.io 통신을 위해 서버를 실행해주세요
+```bash
+cd back
+npm install
+npm start
+```
+
 ### 사용 기술
 `React.JS` `WebSocket` `styled-components` `material-ui`<br>
 
@@ -29,6 +45,25 @@
 
 
 ## 🔧 Server - node
+### 개발환경 세팅
+`express.js`
+Node.js 에서 편하게 서버를 구축할 수 있는 express.js를 선택
+
+`.env`
+.env를 이용함으로서, 여러 config 정보중 data가 private으로 감춰져야 하는 mysql password 등의 데이터를 감추면서도 템플릿을 적용해 , 다른 개발자들도 쉽게 config 를 설정 할 수 있게 함
+
+`pm2`
+node.js 프로세스 관리자로, 실제 런타임 되는 프로그램들을 관리하기 위해 사용
+
+`Mysql`
+채팅 데이터들을 전부 저장하기위해 설치 후 사용
+
+`WebSocket`
+채팅은 모든 유저들끼리 실시간으로 전달되어야 하기 때문에 websocket 선택
+
+**네이버 클라우드를 이용한 deploy 연결 준비 완료**<br>
+나중 배포를 위해, 네이버 클라우드에서 deploy해 서버를 사용할 수 있도록 준비 해놈
+
 ### 사용 기술
 `Node.js` `Express.js` `pm2` `MySQL` `WebSocket`
 
@@ -47,6 +82,23 @@
 
 
 ## ⚗ Server - Flask
+### 환경 구축
+
+- Use python 3.7
+
+```
+cd appropriate-filetering
+pip3 install pipenv==2018.10.13 
+pipenv install
+pipenv run python api.py
+```
+
+- Use docker
+
+```
+docker pull kidevelop/appropriate-filetering
+docker run -p 5000:5000 -d kidevelop/appropriate-filetering
+```
 
 ### 사용 기술
 `Flask` `python` 
@@ -71,4 +123,4 @@
 | J046_김예진 | J120_우승윤 | J009_고병화 |
 | J083_박인서 | J121_우승진 | J010_고석호 |
 | J084_박재윤 | J158_이주형 | J196_조항래 |
-|| J159_이준희 | |
+|| J159_이준희 | J048_김우성 |
