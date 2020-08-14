@@ -38,21 +38,9 @@ const ChattingPage = ({ chattingTitle }) => {
 
   const user = cookies.login;
 
-  useEffect(() => {
-    const ws = new WebSocket("ws://localhost:3250");
-    ws.onmessage = (event) => {
-      console.log("on message", event.data);
-      let recData = JSON.parse(event.data);
-
-      addComment(recData.data);
-    };
-    setWS(ws);
-  }, []);
-
-  const date = new Date();
-
   const addComment = useCallback(
     (data) => {
+      const date = new Date();
       let newMessageData = {};
       if (data.length === 0) return;
       if (typeof data == "string") {
@@ -87,6 +75,27 @@ const ChattingPage = ({ chattingTitle }) => {
     },
     [comments]
   );
+
+  useEffect(() => {
+    const ws = new WebSocket("ws://localhost:3250");
+    ws.onmessage = (event) => {
+      console.log("on message", event.data);
+      let recData = JSON.parse(event.data);
+
+      addComment(recData.data);
+    };
+    setWS(ws);
+  }, []);
+
+  useEffect(() => {
+    if (!ws) return;
+    ws.onmessage = (event) => {
+      console.log("on message", event.data);
+      let recData = JSON.parse(event.data);
+
+      addComment(recData.data);
+    };
+  }, [ws, addComment]);
 
   return (
     <Page>
