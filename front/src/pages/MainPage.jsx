@@ -1,4 +1,5 @@
 import React from "react";
+import { useCookies } from "react-cookie";
 
 import MainPosts from "../components/MainPosts";
 import MainAd from "../components/MainAd";
@@ -16,6 +17,11 @@ const Contents = styled.div`
 `;
 
 export default function MainPage() {
+  const [cookies, setCookie, removeCookie] = useCookies(["login"]);
+
+  if (!cookies.login) {
+    window.location.href = "/login";
+  }
   //쿠키 확인
   //redirect to login
 

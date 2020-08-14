@@ -40,27 +40,25 @@ const ChattingPage = ({ chattingTitle }) => {
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:3250");
-
     ws.onmessage = (event) => {
       console.log("on message", event.data);
       let recData = JSON.parse(event.data);
 
-      addComment(recData.data.message);
+      addComment(recData.data);
     };
-
     setWS(ws);
   }, []);
 
   const date = new Date();
 
   const addComment = useCallback(
-    (comment) => {
-      if (comment.length === 0) return;
-      console.log("dfdfddfd", comment);
-      const newMessageData = {
-        nickname: comment.nickname,
-        text: comment,
-        time:
+    (data) => {
+      let newMessageData = {};
+      if (data.length === 0) return;
+      if (typeof data == "string") {
+        newMessageData["nickname"] = user.userName;
+        newMessageData["text"] = data;
+        newMessageData["time"] =
           date.getFullYear() +
           "." +
           date.getMonth() +
@@ -69,9 +67,22 @@ const ChattingPage = ({ chattingTitle }) => {
           " " +
           date.getHours() +
           ":" +
-          date.getMinutes(),
-      };
-      console.log("comments is ", comments);
+          date.getMinutes();
+      } else {
+        newMessageData["nickname"] = data.nickname;
+        newMessageData["text"] = data.message;
+        newMessageData["time"] =
+          date.getFullYear() +
+          "." +
+          date.getMonth() +
+          "." +
+          date.getDate() +
+          " " +
+          date.getHours() +
+          ":" +
+          date.getMinutes();
+      }
+
       setComments([...comments, newMessageData]);
     },
     [comments]
@@ -82,7 +93,7 @@ const ChattingPage = ({ chattingTitle }) => {
       <MainMenu />
       <ChattingBlock>
         <div className="chatting-header">
-          <div className="chatting-title">{chattingTitle}</div>
+          <div className="chatting-title">{"채팅방"}</div>
         </div>
         <div className="content">
           {comments.map((comment, i) => (
