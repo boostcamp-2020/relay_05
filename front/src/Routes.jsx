@@ -1,28 +1,31 @@
-import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import MainPage from './pages/MainPage';
-import ChattingPage from './pages/ChattingPage';
-
+import MainPage from "./pages/MainPage";
+import ChattingPage from "./pages/ChattingPage";
+import MyPage from "./pages/MyPage";
+import LoginPage from "./pages/LoginPage";
 function Routes() {
   return (
     <>
       <Router>
         <Switch>
-          <Route path='/chat/new'>
-            <ChattingPage chattingTitle='네이버대학교 19학번 채팅방' />
+          <Route path="/login">
+            <LoginPage />
           </Route>
-          <Route exact path='/'>
+          <Route path="/chat/new">
+            <ChattingPage chattingTitle="네이버대학교 19학번 채팅방" />
+          </Route>
+          <Route exact path="/mypage">
+            <MyPage />
+          </Route>
+          <Route exact path="/">
             <MainPage />
           </Route>
         </Switch>
       </Router>
     </>
-  )
+  );
 }
 
 export default Routes;

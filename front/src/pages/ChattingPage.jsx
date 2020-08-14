@@ -1,12 +1,11 @@
-import React, { useState, useCallback,useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from "react";
+import { useCookies } from "react-cookie";
 
-import ChattingContent from '../components/ChattingContent'
-import ChattingInput from '../components/ChattingInput';
-import MainMenu from '../components/MainMenu';
+import ChattingContent from "../components/ChattingContent";
+import ChattingInput from "../components/ChattingInput";
+import MainMenu from "../components/MainMenu";
 
-import styled from 'styled-components';
-
-
+import styled from "styled-components";
 
 const ChattingBlock = styled.div`
   display: flex;
@@ -15,7 +14,7 @@ const ChattingBlock = styled.div`
   height: 100vh;
 
   .chatting-header {
-    border-bottom: 0.1em solid ;
+    border-bottom: 0.1em solid;
     .chatting-title {
       padding: 1.5em;
       font-size: 2em;
@@ -30,59 +29,62 @@ const ChattingBlock = styled.div`
 
 const Page = styled.div`
   display: flex;
-`
-
-const mockData = [
-  {
-    nickname: 'yejin',
-    text: 'commmmmmmmmmmmmmmmmmmment',
-    time: '2020.7.7 21:00',
-  },
-  {
-    nickname: 'kim',
-    text: 'blabla~~~~',
-    time: '2020.7.7 22:00',
-  }
-]; //이전 대화기록입니다.
+`;
 
 const ChattingPage = ({ chattingTitle }) => {
-  const [comments, setComments] = useState(mockData);
+  const [cookies, setCookie, removeCookie] = useCookies(["login"]);
+  const [comments, setComments] = useState([]);
+  const [ws, setWS] = useState(null);
 
-  const ws = new WebSocket('ws://localhost:3250');
+  const user = cookies.login;
 
   useEffect(() => {
+    const ws = new WebSocket("ws://localhost:3250");
+
     ws.onmessage = (event) => {
-      console.log('on message',event.data);
+      console.log("on message", event.data);
       let recData = JSON.parse(event.data);
 
       addComment(recData.data.message);
-    }
-  });
+    };
+
+    setWS(ws);
+  }, []);
 
   const date = new Date();
 
   const addComment = useCallback(
     (comment) => {
       if (comment.length === 0) return;
+      console.log("dfdfddfd", comment);
       const newMessageData = {
-        nickname: 'User',
+        nickname: comment.nickname,
         text: comment,
-        time: date.getFullYear() + '.' + date.getMonth() + '.' + date.getDate() + ' ' + date.getHours() + ':' + date.getMinutes()
+        time:
+          date.getFullYear() +
+          "." +
+          date.getMonth() +
+          "." +
+          date.getDate() +
+          " " +
+          date.getHours() +
+          ":" +
+          date.getMinutes(),
       };
-      console.log('comments is ', comments);
+      console.log("comments is ", comments);
       setComments([...comments, newMessageData]);
     },
-    [comments],
+    [comments]
   );
 
   return (
     <Page>
       <MainMenu />
       <ChattingBlock>
-        <div className='chatting-header'>
-          <div className='chatting-title'>{chattingTitle}</div>
+        <div className="chatting-header">
+          <div className="chatting-title">{chattingTitle}</div>
         </div>
-        <div className='content'>
+        <div className="content">
           {comments.map((comment, i) => (
             <ChattingContent comment={comment} key={i} />
           ))}

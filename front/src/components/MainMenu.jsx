@@ -73,12 +73,14 @@ export default function MainMenu() {
         </ListItem>
       </Link>
 
-      <ListItem button>
-        <ListItemIcon>
-          <PersonIcon />
-        </ListItemIcon>
-        <ListItemText primary="My Page" />
-      </ListItem>
+      <Link to='/mypage' style={{ textDecoration: 'none', color: 'white' }}>
+        <ListItem button>
+          <ListItemIcon>
+            <PersonIcon />
+          </ListItemIcon>
+          <ListItemText primary="My Page" />
+        </ListItem>
+      </Link>
 
       <ListItem button onClick={handleClickChannel}>
         <ListItemIcon>
