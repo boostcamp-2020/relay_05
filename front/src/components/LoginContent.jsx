@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from "react";
-
 import styled from "styled-components";
 
 export default function LoginCotent() {
@@ -19,20 +18,18 @@ export default function LoginCotent() {
       },
       body: JSON.stringify({ userName }),
     });
-
     if (response.ok) {
       window.location.href = "/";
       return;
     }
-
     const { error } = await response.json();
     console.log(error);
     alert("컹스..");
+
   };
 
   const onChange = useCallback((e) => {
     setUserName(e.target.value);
-    console.log(userName);
   });
 
   // const submit = useCallback((e) => {
@@ -44,11 +41,7 @@ export default function LoginCotent() {
     <LoginContainer>
       <LoginText>이름을 입력해주세요</LoginText>
       <LoginInput placeholder="name" onChange={onChange} />
-      <SubmitButton
-        onClick={async () => {
-          await login();
-        }}
-      >
+      <SubmitButton onClick={async () => {await login();}}>
         제출
       </SubmitButton>
     </LoginContainer>

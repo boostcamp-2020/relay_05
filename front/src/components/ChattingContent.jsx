@@ -27,7 +27,7 @@ const Time = styled.div`
   margin-top: 5px;
 `
 
-const ChattingContent = ({ comment }) => {
+const ChattingContent = ({ comment,image }) => {
   const { nickname, text, time } = comment;
   return (
     <ChattingContentBlock>
