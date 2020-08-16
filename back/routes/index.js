@@ -1,8 +1,9 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const RTComment = require("./comment");
+const userRouter = require("./userrouter");
+const RTComment = require('./comment')
 
-router.use("/comment", RTComment);
-
-module.exports = router;
+router.use('/comment',RTComment)
+router.use("/user", userRouter);
+module.exports = router

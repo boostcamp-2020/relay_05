@@ -6,8 +6,13 @@ import numpy as np
 from tensorflow import keras
 import pickle
 from keras.preprocessing import sequence
-from embedding import to_index_array, padding, decompose_string
-
+#from embedding import to_index_array, padding, decompose_string
+import base64
+import json
+#from . import cartoonize
+import cartoonize as cart
+import os
+import shutil
 
 app = Flask(__name__)
 CORS(app)
@@ -84,9 +89,45 @@ def upload_train():
     #
     # return poornag, 200
 
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
+    
+    
+
+@app.route('/cartoonize', methods=['GET','POST'])
+def cartn():
+    # json to .jpg file
+    img = request.get_json()
+    convert_and_save(img['img'])
+    
+    # cartoonzie
+    cart.cartoonizeImg()
+    
+    # get cartoonize Image
+    data = {}
+    os.chdir('../../')
+    imgpath = os.getcwd()
+    imgpath = os.path.join(imgpath,"front/cartoonImg.jpg")
+    
+    
+    with open("back_flask/appropriate-filetering/cartoonized_images/cartoonImg.jpg", mode='rb') as file:
+        img = file.read()
+        data['img'] = base64.encodebytes(img).decode("utf-8")
+    shutil.copyfile("back_flask/appropriate-filetering/cartoonized_images/cartoonImg.jpg",imgpath)
+    # .jpg to json file
+    rootPath=os.getcwd()
+    rootPath=os.path.join(rootPath,"back_flask/appropriate-filetering")
+    os.chdir(rootPath)
+    
+    return json.dumps(data)
+
+
+def convert_and_save(b64_string):
+    with open("test_images/cartoonImg.jpg", "wb") as fh:
+        fh.write(base64.b64decode(b64_string.encode()))
+    
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # node.js 와 host IP 맞춰야 함
-app.run(port=5000, host='0.0.0.0', debug=True, threaded=True)
+app.run(port=5000, host='127.0.0.1', debug=True)

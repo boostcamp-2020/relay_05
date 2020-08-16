@@ -1,11 +1,13 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback,useEffect } from 'react';
 import { useCookies } from "react-cookie";
 
-import ChattingContent from "../components/ChattingContent";
-import ChattingInput from "../components/ChattingInput";
-import MainMenu from "../components/MainMenu";
+import ChattingContent from '../components/ChattingContent'
+import ChattingInput from '../components/ChattingInput';
+import MainMenu from '../components/MainMenu';
 
-import styled from "styled-components";
+import styled from 'styled-components';
+
+
 
 const ChattingBlock = styled.div`
   display: flex;
@@ -14,7 +16,7 @@ const ChattingBlock = styled.div`
   height: 100vh;
 
   .chatting-header {
-    border-bottom: 0.1em solid;
+    border-bottom: 0.1em solid ;
     .chatting-title {
       padding: 1.5em;
       font-size: 2em;
@@ -31,55 +33,58 @@ const Page = styled.div`
   display: flex;
 `;
 
+
 const ChattingPage = ({ chattingTitle }) => {
-  const [cookies, setCookie, removeCookie] = useCookies(["login"]);
-  const [comments, setComments] = useState([]);
-  const [ws, setWS] = useState(null);
+const [cookies, setCookie, removeCookie] = useCookies(["login"]);
+const [comments, setComments] = useState([]);
+const [ws, setWS] = useState(null);
 
+
+const addComment = useCallback(
+  (data) => {
+    const date = new Date();
+    let newMessageData = {};
+    if (data.length === 0) return;
+    if (typeof data == "string") {
+      newMessageData["nickname"] = user.userName;
+      newMessageData["text"] = data;
+      newMessageData["time"] =
+        date.getFullYear() +
+        "." +
+        date.getMonth() +
+        "." +
+        date.getDate() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes();
+
+    } else {
+      newMessageData["nickname"] = data.nickname;
+      newMessageData["text"] = data.message;
+      newMessageData["time"] =
+
+        date.getFullYear() +
+        "." +
+        date.getMonth() +
+        "." +
+        date.getDate() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes();
+    }
+    setComments([...comments, newMessageData]);
+  },
+  [comments]
+
+);
   const user = cookies.login;
-
-  const addComment = useCallback(
-    (data) => {
-      const date = new Date();
-      let newMessageData = {};
-      if (data.length === 0) return;
-      if (typeof data == "string") {
-        newMessageData["nickname"] = user.userName;
-        newMessageData["text"] = data;
-        newMessageData["time"] =
-          date.getFullYear() +
-          "." +
-          date.getMonth() +
-          "." +
-          date.getDate() +
-          " " +
-          date.getHours() +
-          ":" +
-          date.getMinutes();
-      } else {
-        newMessageData["nickname"] = data.nickname;
-        newMessageData["text"] = data.message;
-        newMessageData["time"] =
-          date.getFullYear() +
-          "." +
-          date.getMonth() +
-          "." +
-          date.getDate() +
-          " " +
-          date.getHours() +
-          ":" +
-          date.getMinutes();
-      }
-
-      setComments([...comments, newMessageData]);
-    },
-    [comments]
-  );
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:3250");
     ws.onmessage = (event) => {
-      console.log("on message", event.data);
+      console.log('on message',event.data);
       let recData = JSON.parse(event.data);
 
       addComment(recData.data);
@@ -92,7 +97,6 @@ const ChattingPage = ({ chattingTitle }) => {
     ws.onmessage = (event) => {
       console.log("on message", event.data);
       let recData = JSON.parse(event.data);
-
       addComment(recData.data);
     };
   }, [ws, addComment]);
@@ -101,10 +105,10 @@ const ChattingPage = ({ chattingTitle }) => {
     <Page>
       <MainMenu />
       <ChattingBlock>
-        <div className="chatting-header">
-          <div className="chatting-title">{"채팅방"}</div>
+      <div className="chatting-header">
+        <div className="chatting-title">{"채팅방"}</div>
         </div>
-        <div className="content">
+        <div className='content'>
           {comments.map((comment, i) => (
             <ChattingContent comment={comment} key={i} />
           ))}
