@@ -1,4 +1,174 @@
-# Relay_05
+# 데모 시연영상
+
+링크 : https://youtu.be/T2qn3pj-9Qw
+
+
+
+# 체크포인트
+
+```
+- 닉네임 기반 로그인
+- 마이페이지 / 이미지 업로드
+- flask 서버에 이미지 변환 요청
+- 변환된 이미지 front 전송
+- 이미지 파일 카툰화
+
+자세한 내용은 아래 프로젝트 소개를 참고해주세요
+```
+
+
+
+# 릴레이프로젝트 회고 및 소감
+
+```
+중심을 잡아줄 프로젝트 경험자가 없어 초심자들끼리 삽질(?)의 연속이었습니다.
+프로젝트에 사용 된 기술공부에 몇시간씩 할애해야했던 프로젝트 경험이었고요.
+그렇지만 원하는 기능을 구현하게 되어서 뿌듯하기도 합니다.
+주말, 월요일 새벽까지도 고생해준 팀원들이 대단한 것 같습니다. 
+```
+
+
+
+# 프로젝트 소개
+
+# 🙌🏻 다모여
+
+### 카툰화 기능
+
+마이 페이지에서 프로필 사진 업로드 시, 카툰 이미지로 변경
+
+### 시스템 구조
+
+![image](https://user-images.githubusercontent.com/26537048/89733480-c0063700-da90-11ea-9281-3c438178f6f9.png)
+
+
+## 💻 FrontEnd
+
+### 프로젝트 시작하기
+
+```bash
+git clone https://github.com/boostcamp-2020/relay_05.git
+cd front
+npm install
+npm start
+```
+
+socket.io 통신을 위해 서버를 실행해주세요
+
+```bash
+cd back
+npm install
+npm start
+```
+
+### 사용 기술
+
+`React.JS` `WebSocket` `styled-components` `material-ui`<br>
+
+### 구현
+
+- 닉네임 기반 로그인
+- 마이페이지 / 이미지 업로드
+
+### 실행
+
+- 로그인 화면
+  ![image](https://user-images.githubusercontent.com/60379085/90328922-698e8080-dfdb-11ea-834c-3d27667f9f2e.png)
+
+- 마이페이지 화면
+  ![image](https://user-images.githubusercontent.com/60379085/90328987-d43fbc00-dfdb-11ea-8d33-a15cf8707e44.png)
+
+- 이미지 업로드
+  ![image](https://user-images.githubusercontent.com/60379085/90329020-1832c100-dfdc-11ea-89a0-4ea4f93119ca.png)
+
+
+
+## 🔧 Server - node
+
+### 개발환경 세팅
+
+### 사용 기술
+
+`Node.js` `Express.js` `pm2` `MySQL` `WebSocket`
+
+### 구현
+
+- flask 서버에 이미지 변환 요청
+- 변환된 이미지 front 전송
+
+### 실행
+
+- 저장 버튼이 눌리면 nodejs 서버로 이미지파일이 전달되고, 
+
+  flask에 이미지 변환을 요청한 후 카툰화 된 이미지 반환
+
+  ![image](https://user-images.githubusercontent.com/49560745/90347792-5fb55d80-e06d-11ea-99b7-4b83687e2323.png)
+
+- 사용자 프로필 이미지 카툰화 완료!
+  ![image](https://user-images.githubusercontent.com/49560745/90347767-401e3500-e06d-11ea-90ef-6d3ef9510fb6.png)
+
+
+## ⚗ Server - Flask
+
+### 환경 구축
+
+- Use python 3.7
+
+```
+2주차 환경설정
+
+cd appropriate-filetering
+pip3 install pipenv==2018.10.13 
+pipenv install
+pipenv run python api.py
+-----------------------------------------------------------------------------------------
+3주차 환경설정
+
+python=3.7.0
+opencv-python=*
+tensorflow=1.13.1
+keras=2.2.4
+pytorch : pip install https://download.pytorch.org/whl/cu100/torch-1.2.0-cp37-cp37m-win_amd64.whl
+
+pip opencv-python tensorflow==1.13.1 keras==2.2.4
+pip install https://download.pytorch.org/whl/cu100/torch-1.2.0-cp37-cp37m-win_amd64.whl
+```
+
+- Use docker
+
+```
+docker pull kidevelop/appropriate-filetering
+docker run -p 5000:5000 -d kidevelop/appropriate-filetering
+```
+
+### 사용 기술
+
+`Flask` `python` 
+
+### 구현
+
+- 이미지 파일 카투나이징
+
+### 실행
+
+- 이미지 카툰화
+
+![image (1)](https://user-images.githubusercontent.com/49560745/90347400-35fb3700-e06b-11ea-8f58-0f99371bfd6e.png)
+
+
+
+### 🚴 Week3 릴레이 프로젝트 참여자
+
+| FrontEnd    | Node        | Flask       |
+| ----------- | ----------- | ----------- |
+| J092_박진용 | J094_서광근 | J044_김성환 |
+| J093_백지영 | J173_임현유 | J043_김선우 |
+| J215_한승래 | J183_정부용 | J027_김도균 |
+| J199_주지수 |             | J070_문창주 |
+
+
+
+# Relay_05 - 1주차
 
 ### [Background](https://github.com/boostcamp-2020/relay_05/blob/master/background.md)
 
