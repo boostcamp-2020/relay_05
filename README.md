@@ -165,6 +165,7 @@ docker run -p 5000:5000 -d kidevelop/appropriate-filetering
 | J093_백지영 | J173_임현유 | J043_김선우 |
 | J215_한승래 | J183_정부용 | J027_김도균 |
 | J199_주지수 |             | J070_문창주 |
+| J036_김민식 |             |            |
 
 
 
