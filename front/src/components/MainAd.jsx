@@ -1,9 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export default function MainAd() {
-
   const Ad = styled.div`
     display: flex;
     flex-direction: column;
@@ -13,8 +12,8 @@ export default function MainAd() {
 
   return (
     <Ad>
-      <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQG2mJJPa4nRc-KmDApwHef8tRXuID3Xpzd7g&usqp=CAU'></img>
-      <span>광고입니다</span>
+      <img src="https://user-images.githubusercontent.com/46068738/90868169-688d9280-e3d1-11ea-9a3a-3b4acf48332d.jpg"></img>
+      <span>광고입니디</span>
     </Ad>
   );
 }

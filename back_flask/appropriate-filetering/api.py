@@ -6,13 +6,14 @@ import numpy as np
 from tensorflow import keras
 import pickle
 from keras.preprocessing import sequence
-#from embedding import to_index_array, padding, decompose_string
+from embedding import to_index_array, padding, decompose_string
 import base64
 import json
 #from . import cartoonize
 import cartoonize as cart
 import os
 import shutil
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -21,6 +22,7 @@ MAX_LEN = 681
 
 with open('jamo.pydict', 'rb') as f:
     jamodict = pickle.load(f)
+
 
 def encode_review(text):
     text = decompose_string(text)
@@ -57,6 +59,7 @@ def predict(text):
 #
 #     return poornag, 200
 
+
 @app.route('/chk', methods=['POST'])
 def upload_train():
     # data_test = reqparse.RequestParser()
@@ -89,45 +92,47 @@ def upload_train():
     #
     # return poornag, 200
 
-    
-    
 
-@app.route('/cartoonize', methods=['GET','POST'])
+@app.route('/cartoonize', methods=['GET', 'POST'])
 def cartn():
     # json to .jpg file
+    imgName = time.strftime('%c', time.localtime(
+        time.time())).replace(":", '', 3)
     img = request.get_json()
-    convert_and_save(img['img'])
-    
+    convert_and_save(img['img'], imgName)
+
     # cartoonzie
     cart.cartoonizeImg()
-    
+
     # get cartoonize Image
     data = {}
     os.chdir('../../')
+
     imgpath = os.getcwd()
-    imgpath = os.path.join(imgpath,"front/cartoonImg.jpg")
-    
-    
-    with open("back_flask/appropriate-filetering/cartoonized_images/cartoonImg.jpg", mode='rb') as file:
+    imgpath = os.path.join(imgpath, "front/{}.jpg".format(imgName))
+
+    with open("back_flask/appropriate-filetering/cartoonized_images/{}.jpg".format(imgName), mode='rb') as file:
         img = file.read()
         data['img'] = base64.encodebytes(img).decode("utf-8")
-    shutil.copyfile("back_flask/appropriate-filetering/cartoonized_images/cartoonImg.jpg",imgpath)
+    shutil.copyfile(
+        "back_flask/appropriate-filetering/cartoonized_images/{}.jpg".format(imgName), imgpath)
     # .jpg to json file
-    rootPath=os.getcwd()
-    rootPath=os.path.join(rootPath,"back_flask/appropriate-filetering")
+    rootPath = os.getcwd()
+    rootPath = os.path.join(rootPath, "back_flask/appropriate-filetering")
     os.chdir(rootPath)
-    
+
     return json.dumps(data)
 
 
-def convert_and_save(b64_string):
-    with open("test_images/cartoonImg.jpg", "wb") as fh:
+def convert_and_save(b64_string, name):
+    with open("test_images/{}.jpg".format(name), "wb") as fh:
         fh.write(base64.b64decode(b64_string.encode()))
-    
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 # node.js 와 host IP 맞춰야 함
 app.run(port=5000, host='127.0.0.1', debug=True)

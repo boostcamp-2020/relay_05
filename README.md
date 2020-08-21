@@ -132,6 +132,9 @@ pytorch : pip install https://download.pytorch.org/whl/cu100/torch-1.2.0-cp37-cp
 
 pip opencv-python tensorflow==1.13.1 keras==2.2.4
 pip install https://download.pytorch.org/whl/cu100/torch-1.2.0-cp37-cp37m-win_amd64.whl
+pip install flask 
+pip install flask_cors
+pip install tqdm
 ```
 
 - Use docker
